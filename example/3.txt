@@ -1,0 +1,101 @@
+import { CommonModule } from "@angular/common";
+import { Component } from "@angular/core";
+
+@Component({
+  selector: "app-root",
+  standalone: true,
+  imports: [CommonModule],
+  template: `
+    <div class="app">
+      <div class="product-list">
+        <h2>Product List</h2>
+        <div *ngFor="let product of products" class="product-card" (click)="onProductClick(product)">
+          <img [src]="product.image" alt="{{ product.name }}" class="product-image" />
+          <h3>{{ product.name }}</h3>
+        </div>
+      </div>
+      <div class="product-details" *ngIf="selectedProduct">
+        <h2>Product Details</h2>
+        <h3>{{ selectedProduct.name }}</h3>
+        <img [src]="selectedProduct.image" alt="Product Image" />
+        <p>{{ selectedProduct.description }}</p>
+      </div>
+    </div>
+  `,
+  styles: [`
+    .app {
+      display: flex;
+      flex-direction: row;
+      height: 100vh;
+      gap: 20px;
+    }
+
+    .product-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 30%;
+      max-width: 300px;
+      border-right: 1px solid #ddd;
+      padding: 10px;
+      overflow-y: auto;
+    }
+
+    .product-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid #ccc;
+      padding: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .product-card:hover {
+      background-color: #f0f0f0;
+    }
+
+    .product-card img {
+      width: 80px;
+      height: 80px;
+      object-fit: cover;
+      margin-bottom: 5px;
+    }
+
+    .product-details {
+      flex-grow: 1;
+      padding: 20px;
+    }
+
+    .product-details img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 10px;
+    }
+  `]
+})
+export class AppComponent {
+  products = [
+    {
+      name: "Smart Watch",
+      description: "A smartwatch is a wearable computing device that closely resembles a wristwatch or other time-keeping device.",
+      image: "assets/watch.jpg"
+    },
+    {
+      name: "Earbot",
+      image: "assets/earbot.jpg" ,
+      description: "Earbuds are basically a pair of tiny speakers that you wear inside your ears."
+    },
+    {
+      name: "Nike Sport Shoes",
+      description:"They are made of flexible kinds of material featuring soles made from rubber and an upper part made with leather or canvas.",
+      image: "assets/Nike.jpg"
+    }
+  ];
+
+  selectedProduct: any = null;
+
+  onProductClick(product: any) {
+    this.selectedProduct = product;
+  }
+}
