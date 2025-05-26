@@ -11,10 +11,12 @@ import java.util.Stack;
 
 public class BaseVisitor extends AngulerParserBaseVisitor {
     Variable_symbolTable v_symbolTable;
-    RepeatDefinition_SymbolTable r_symbolTable;
-    public BaseVisitor(Variable_symbolTable v_symbolTable, RepeatDefinition_SymbolTable r_symbolTable) {
+    RepeatDefinitionComponent_SymbolTable r_symbolTable;
+    RepeatStylesProperty_symbolTable rs_symboltable;
+    public BaseVisitor(Variable_symbolTable v_symbolTable, RepeatDefinitionComponent_SymbolTable r_symbolTable, RepeatStylesProperty_symbolTable rs_symboltable) {
         this.v_symbolTable=v_symbolTable;
         this.r_symbolTable=r_symbolTable;
+        this.rs_symboltable=rs_symboltable;
     }
     Stack<String>scopes=new Stack<>();
     @Override
@@ -416,9 +418,9 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
     public P_appNode visitP_app(AngulerParser.P_appContext ctx) {
         P_appNode p=new P_appNode(ctx.start.getLine(),ctx.start.getCharPositionInLine());
         try{
-            if(!r_symbolTable.checkApp())
+            if(!rs_symboltable.checkApp())
                 throw new DuplicateStylePropertyException("Duplicate style property '.app'  found in component at line "+p.getLine()+" . Each style property must be defined only once.");
-            r_symbolTable.addVariable(".app","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
+            rs_symboltable.addVariable(".app","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
         }catch (DuplicateStylePropertyException e){
             System.err.println("Semantic Error: "+e.getMessage());
         }
@@ -442,9 +444,9 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
     public P_cardNode visitP_card(AngulerParser.P_cardContext ctx) {
         P_cardNode p=new P_cardNode(ctx.start.getLine(),ctx.start.getCharPositionInLine());
         try{
-            if(!r_symbolTable.checkP_card())
+            if(!rs_symboltable.checkP_card())
                 throw new DuplicateStylePropertyException("Duplicate style property '.product-card'  found in component at line "+p.getLine()+" . Each style property must be defined only once.");
-            r_symbolTable.addVariable(".product-card","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
+            rs_symboltable.addVariable(".product-card","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
         }catch (DuplicateStylePropertyException e){
             System.err.println("Semantic Error: "+e.getMessage());
         }
@@ -458,9 +460,9 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
     public P_card_hNode visitP_card_h(AngulerParser.P_card_hContext ctx) {
         P_card_hNode p=new P_card_hNode(ctx.start.getLine(),ctx.start.getCharPositionInLine());
         try{
-            if(!r_symbolTable.checkP_card_h())
+            if(!rs_symboltable.checkP_card_h())
                 throw new DuplicateStylePropertyException("Duplicate style property '.product-card:hover'  found in component at line "+p.getLine()+" . Each style property must be defined only once.");
-            r_symbolTable.addVariable(".product-card:hover","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
+            rs_symboltable.addVariable(".product-card:hover","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
         }catch (DuplicateStylePropertyException e){
             System.err.println("Semantic Error: "+e.getMessage());
         }
@@ -474,9 +476,9 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
     public P_card_iNode visitP_card_i(AngulerParser.P_card_iContext ctx) {
         P_card_iNode p=new P_card_iNode(ctx.start.getLine(),ctx.start.getCharPositionInLine());
         try{
-            if(!r_symbolTable.checkP_card_i())
+            if(!rs_symboltable.checkP_card_i())
                 throw new DuplicateStylePropertyException("Duplicate style property '.product-card img'  found in component at line "+p.getLine()+" . Each style property must be defined only once.");
-            r_symbolTable.addVariable(".product-card img","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
+            rs_symboltable.addVariable(".product-card img","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
         }catch (DuplicateStylePropertyException e){
             System.err.println("Semantic Error: "+e.getMessage());
         }
@@ -490,9 +492,9 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
     public P_detailNode visitP_detail(AngulerParser.P_detailContext ctx) {
         P_detailNode p=new P_detailNode(ctx.start.getLine(),ctx.start.getCharPositionInLine());
         try{
-            if(!r_symbolTable.checkP_details())
+            if(!rs_symboltable.checkP_details())
                 throw new DuplicateStylePropertyException("Duplicate style property '.product-details'  found in component at line "+p.getLine()+" . Each style property must be defined only once.");
-            r_symbolTable.addVariable(".product-details","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
+            rs_symboltable.addVariable(".product-details","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
         }catch (DuplicateStylePropertyException e){
             System.err.println("Semantic Error: "+e.getMessage());
         }
@@ -506,9 +508,9 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
     public P_detail_iNode visitP_detail_i(AngulerParser.P_detail_iContext ctx) {
         P_detail_iNode p=new P_detail_iNode(ctx.start.getLine(),ctx.start.getCharPositionInLine());
         try{
-            if(!r_symbolTable.checkP_details_i())
+            if(!rs_symboltable.checkP_details_i())
                 throw new DuplicateStylePropertyException("Duplicate style property '.product-details img'  found in component at line "+p.getLine()+" . Each style property must be defined only once.");
-            r_symbolTable.addVariable(".product-details img","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
+            rs_symboltable.addVariable(".product-details img","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
         }catch (DuplicateStylePropertyException e){
             System.err.println("Semantic Error: "+e.getMessage());
         }

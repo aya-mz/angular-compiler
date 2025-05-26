@@ -3,15 +3,14 @@ package SymbolTable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepeatDefinition_SymbolTable {
+public class RepeatStylesProperty_symbolTable {
     List<Row>symbolTable;
-    int selector=0,standalone=0,imports=0,template=0,styles=0,
-            app=0,p_list=0,p_card=0,p_cardh=0,p_cardi=0,p_details=0,p_detailsi=0;
+    int  app=0,p_list=0,p_card=0,p_cardh=0,p_cardi=0,p_details=0,p_detailsi=0;
 
-    public RepeatDefinition_SymbolTable() {
+
+    public RepeatStylesProperty_symbolTable() {
         this.symbolTable = new ArrayList<>();
     }
-
     public void addVariable(String variableName,String type,String scope, int line, int column){
         Row row=new Row(variableName,type,scope,"unnecessary",line,column);
         symbolTable.add(row);
@@ -66,51 +65,10 @@ public class RepeatDefinition_SymbolTable {
         return true;
     }
 
-    public boolean checkSelector(){
-        if(selector!=0)
-            return false;
-        selector++;
-        return true;
-    }
-
-    public boolean checkStandalone(){
-        if(standalone!=0)
-            return false;
-        standalone++;
-        return true;
-    }
-
-    public boolean checkImports(){
-        if(imports!=0)
-            return false;
-        imports++;
-        return true;
-    }
-
-    public boolean checkTemplate(){
-        if(template!=0)
-            return false;
-        template++;
-        return true;
-    }
-
-    public boolean checkStyles(){
-        if(styles!=0)
-            return false;
-        styles++;
-        return true;
-    }
-
-    public boolean TemplateIsExist(){
-        if (template==0)
-            return false;
-        return true;
-    }
-
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Definition Symbol Table:\n");
+        stringBuilder.append("Definition Styles Symbol Table:\n");
         stringBuilder.append("*".repeat(160)).append("\n");
 
         int idWidth = 10;
@@ -145,4 +103,5 @@ public class RepeatDefinition_SymbolTable {
 
         return formattedValue.toString();
     }
+
 }
