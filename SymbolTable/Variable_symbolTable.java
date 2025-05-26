@@ -1,10 +1,14 @@
 package SymbolTable;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Variable_symbolTable {
     Map<String,Row> symbolTable;
+    List<String>Im= Arrays.asList("CommonModule", "FormsModule", "ReactiveFormsModule", "RouterModule",
+            "HttpClientModule", "BrowserAnimationsModule", "BrowserModule", "NgOptimizedImage",
+            "MatButtonModule", "MatInputModule", "MatCardModule", "MatToolbarModule", "MatIconModule",
+            "MatSidenavModule", "MatListModule", "MatTableModule", "MatDialogModule", "MatSnackBarModule",
+            "DragDropModule", "ScrollingModule", "OverlayModule", "PortalModule", "ClipboardModule", "LayoutModule");
 
     public Variable_symbolTable() {
         this.symbolTable = new LinkedHashMap<>();
@@ -15,12 +19,16 @@ public class Variable_symbolTable {
         symbolTable.put(variableName,row);
     }
 
-
+    public boolean ExistImport(String value){
+        if(!Im.contains(value))
+            return false;
+        return true;
+    }
 
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Symbol Table:\n");
+        stringBuilder.append("Variable Symbol Table:\n");
         stringBuilder.append("*".repeat(160)).append("\n");
 
         int idWidth = 10;

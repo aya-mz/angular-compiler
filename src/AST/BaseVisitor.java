@@ -103,7 +103,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
         v_symbolTable.addVariable("selector","String",scopes.getLast(),selectorData.getSELECTOR_BODY(),selectorData.getLine(),selectorData.getColumn());
         try{
             if(!r_symbolTable.checkSelector())
-                throw new ComponentPropertyRedefinitionException("Duplicate 'selector' found in @Component at line"+selectorData.getLine());
+                throw new ComponentPropertyRedefinitionException("Duplicate 'selector' found in @Component at line "+selectorData.getLine());
             r_symbolTable.addVariable("selector","String",scopes.getLast(),selectorData.getLine(),selectorData.getColumn());
         }catch (ComponentPropertyRedefinitionException e){
             System.err.println("Semantic Error: "+e.getMessage());
@@ -118,7 +118,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
         v_symbolTable.addVariable("standalone","Boolean",scopes.getLast(),standaloneData.getSTANDALONE_VALUE(),standaloneData.getLine(),standaloneData.getColumn());
         try{
             if(!r_symbolTable.checkStandalone())
-                throw new ComponentPropertyRedefinitionException("Duplicate 'standalone' found in @Component at line"+standaloneData.getLine());
+                throw new ComponentPropertyRedefinitionException("Duplicate 'standalone' found in @Component at line "+standaloneData.getLine());
             r_symbolTable.addVariable("standalone","Boolean",scopes.getLast(),standaloneData.getLine(),standaloneData.getColumn());
         }catch (ComponentPropertyRedefinitionException e){
             System.err.println("Semantic Error: "+e.getMessage());
@@ -130,10 +130,17 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
     public ImportsDataNode visitImports_data(AngulerParser.Imports_dataContext ctx) {
         ImportsDataNode importsData=new ImportsDataNode(ctx.start.getLine(),ctx.start.getCharPositionInLine());
         importsData.setSELECTOR_BODY(ctx.SELECTOR_BODY().getText());
-        v_symbolTable.addVariable("imports","array",scopes.getLast(),importsData.getSELECTOR_BODY(),importsData.getLine(),importsData.getColumn());
+        try{
+            if(!v_symbolTable.ExistImport(importsData.getSELECTOR_BODY()))
+                throw new UnknownReferenceImportException("'imports' must be an array of components, directives, pipes, or NgModules.\n" +
+                        "  Value could not be determined statically.at line "+importsData.getLine());
+            v_symbolTable.addVariable("imports","array",scopes.getLast(),importsData.getSELECTOR_BODY(),importsData.getLine(),importsData.getColumn());
+        }catch (UnknownReferenceImportException e){
+            System.err.println("Semantic Error: "+e.getMessage());
+        }
         try{
             if(!r_symbolTable.checkImports())
-                throw new ComponentPropertyRedefinitionException("Duplicate 'imports' found in @Component at line"+importsData.getLine());
+                throw new ComponentPropertyRedefinitionException("Duplicate 'imports' found in @Component at line "+importsData.getLine());
             r_symbolTable.addVariable("imports","array",scopes.getLast(),importsData.getLine(),importsData.getColumn());
         }catch (ComponentPropertyRedefinitionException e){
             System.err.println("Semantic Error: "+e.getMessage());
@@ -156,7 +163,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
         TemplateNode template=new TemplateNode(ctx.start.getLine(),ctx.start.getCharPositionInLine());
         try{
             if(!r_symbolTable.checkTemplate())
-                throw new ComponentPropertyRedefinitionException("Duplicate 'template' found in @Component at line"+template.getLine());
+                throw new ComponentPropertyRedefinitionException("Duplicate 'template' found in @Component at line "+template.getLine());
             r_symbolTable.addVariable("template","String",scopes.getLast(),template.getLine(),template.getColumn());
         }catch (ComponentPropertyRedefinitionException e){
             System.err.println("Semantic Error: "+e.getMessage());
@@ -390,7 +397,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
         StylesNode styles = new StylesNode(ctx.start.getLine(), ctx.start.getCharPositionInLine());
         try{
             if(!r_symbolTable.checkStyles())
-                throw new ComponentPropertyRedefinitionException("Duplicate 'styles' found in @Component at line"+styles.getLine());
+                throw new ComponentPropertyRedefinitionException("Duplicate 'styles' found in @Component at line "+styles.getLine());
             r_symbolTable.addVariable("styles","array of String s",scopes.getLast(),styles.getLine(),styles.getColumn());
         }catch (ComponentPropertyRedefinitionException e){
             System.err.println("Semantic Error: "+e.getMessage());

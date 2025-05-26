@@ -110,7 +110,7 @@ public class RepeatDefinition_SymbolTable {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Symbol Table:\n");
+        stringBuilder.append("Definition Symbol Table:\n");
         stringBuilder.append("*".repeat(160)).append("\n");
 
         int idWidth = 10;
