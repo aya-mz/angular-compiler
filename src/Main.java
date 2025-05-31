@@ -1,10 +1,8 @@
 import AST.BaseVisitor;
+import AST.ErrorLogger;
 import AST.PrintAST;
 import Classes.*;
-import SymbolTable.RepeatStylesProperty_symbolTable;
-import SymbolTable.RepeatDefinitionComponent_symbolTable;
 import SymbolTable.SymbolTable;
-import SymbolTable.Variable_symbolTable;
 import gen.AngulerLexer;
 import gen.AngulerParser;
 import org.antlr.v4.runtime.CharStream;
@@ -17,7 +15,7 @@ import static org.antlr.v4.runtime.CharStreams.fromFileName;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String source = "example/errors.txt";
+        String source = "example/errors2.txt";
         SymbolTable symbolTable=new SymbolTable();
         CharStream crs = fromFileName(source);
         AngulerLexer lexer = new AngulerLexer(crs);

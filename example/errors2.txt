@@ -1,10 +1,10 @@
-import { CommonModule } from "@angular/common";
-import { Compoent } from "@angular/core";
+import { Component } from "@angular/common";
+import { Component } from "@angular/coree";
 
 @Component({
   selector: "app-root",
   standalone: true,
-  imports: [CommonModle],
+  imports: [CommonModule],
   selector: "app-root",
   styles: [`
     .app {

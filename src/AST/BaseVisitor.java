@@ -44,11 +44,11 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
                 throw new UndefinitionImportException("This Module is not definition at line "+importStatement.getLine());
             else if(!symbolTable.importDefinitionSymbolTable.fromIsExist(importFrom.getSTRING_LITERAL()))
                 throw new UndefinitionImportException("This package is not definition at line "+importFrom.getLine());
-            else if(!symbolTable.importDefinitionSymbolTable.isExist(importStatement.getImportedSymbolNode().getFirst().getMODULE_NAME(),importFrom.getSTRING_LITERAL()))
+            else if(!symbolTable.importDefinitionSymbolTable.isExist(importStatement.getImportedSymbolNode().getFirst().getMODULE_NAME().substring(1,importStatement.getImportedSymbolNode().getFirst().getMODULE_NAME().length()-2),importFrom.getSTRING_LITERAL()))
                 throw new UndefinitionImportException("This Module is not in this Package at line "+importNode.getLine());
             symbolTable.importDefinitionSymbolTable.addVariable(importStatement.getImportedSymbolNode().getLast().getMODULE_NAME().substring(1,importStatement.getImportedSymbolNode().getFirst().getMODULE_NAME().length()-2),"Module",scopes.getLast(),importFrom.getSTRING_LITERAL(),importNode.getLine(),importNode.getColumn());
         }catch (UndefinitionImportException e){
-            System.err.println("Semantic Error: "+e);
+            ErrorLogger.log("UndefinitionImportException: "+e);
         }
         return importNode;
     }
@@ -90,7 +90,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
             if(!t.templateIsExist())
                 throw new MissingTemplateException("Component is missing a template. A component must have a 'template' property.");
         }catch (MissingTemplateException e){
-            System.err.println("Semantic Error: "+e.getMessage());
+            ErrorLogger.log("MissingTemplateException: "+e);
         }
         return component;
     }
@@ -116,7 +116,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
                 throw new ComponentPropertyRedefinitionException("Duplicate 'selector' found in @Component at line "+selectorData.getLine());
             symbolTable.r_symbolTable.addVariable("selector","String",scopes.getLast(),selectorData.getLine(),selectorData.getColumn());
         }catch (ComponentPropertyRedefinitionException e){
-            System.err.println("Semantic Error: "+e.getMessage());
+            ErrorLogger.log("ComponentPropertyRedefinitionException: "+e);
         }
         return selectorData;
     }
@@ -131,7 +131,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
                 throw new ComponentPropertyRedefinitionException("Duplicate 'standalone' found in @Component at line "+standaloneData.getLine());
             symbolTable.r_symbolTable.addVariable("standalone","Boolean",scopes.getLast(),standaloneData.getLine(),standaloneData.getColumn());
         }catch (ComponentPropertyRedefinitionException e){
-            System.err.println("Semantic Error: "+e.getMessage());
+            ErrorLogger.log("ComponentPropertyRedefinitionException: "+e);
         }
         return standaloneData;
     }
@@ -149,14 +149,14 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
             }
             symbolTable.v_symbolTable.addVariable("imports","array",scopes.getLast(),importsData.getSELECTOR_BODY(),importsData.getLine(),importsData.getColumn());
         }catch (UnknownReferenceImportException e){
-            System.err.println("Semantic Error: "+e.getMessage());
+            ErrorLogger.log("UnknownReferenceImportException: "+e);
         }
         try{
             if(!symbolTable.r_symbolTable.checkImports())
                 throw new ComponentPropertyRedefinitionException("Duplicate 'imports' found in @Component at line "+importsData.getLine());
             symbolTable.r_symbolTable.addVariable("imports","array",scopes.getLast(),importsData.getLine(),importsData.getColumn());
         }catch (ComponentPropertyRedefinitionException e){
-            System.err.println("Semantic Error: "+e.getMessage());
+            ErrorLogger.log("ComponentPropertyRedefinitionException: "+e);
         }
         return importsData;
     }
@@ -179,7 +179,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
                 throw new ComponentPropertyRedefinitionException("Duplicate 'template' found in @Component at line "+template.getLine());
             symbolTable.r_symbolTable.addVariable("template","String",scopes.getLast(),template.getLine(),template.getColumn());
         }catch (ComponentPropertyRedefinitionException e){
-            System.err.println("Semantic Error: "+e.getMessage());
+            ErrorLogger.log("ComponentPropertyRedefinitionException: "+e);
         }
         scopes.add("template");
         TemplateBodyNode templateBody=visitTemplate_body(ctx.template_body());
@@ -413,7 +413,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
                 throw new ComponentPropertyRedefinitionException("Duplicate 'styles' found in @Component at line "+styles.getLine());
             symbolTable.r_symbolTable.addVariable("styles","array of String s",scopes.getLast(),styles.getLine(),styles.getColumn());
         }catch (ComponentPropertyRedefinitionException e){
-            System.err.println("Semantic Error: "+e.getMessage());
+            ErrorLogger.log("ComponentPropertyRedefinitionException: "+e);
         }
         scopes.add("styles");
         List<StylesBodyNode> bodyNodes = new ArrayList<>();
@@ -433,7 +433,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
                 throw new DuplicateStylePropertyException("Duplicate style property '.app'  found in component at line "+p.getLine()+" . Each style property must be defined only once.");
             symbolTable.rs_symbolTable.addVariable(".app","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
         }catch (DuplicateStylePropertyException e){
-            System.err.println("Semantic Error: "+e.getMessage());
+            ErrorLogger.log("DuplicateStylePropertyException: "+e);
         }
         scopes.add(".app");
         p.setCSS_BODY(ctx.CSS_BODY().getText());
@@ -449,7 +449,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
                 throw new DuplicateStylePropertyException("Duplicate style property '.product-card'  found in component at line "+p.getLine()+" . Each style property must be defined only once.");
             symbolTable.rs_symbolTable.addVariable(".product-list","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
         }catch (DuplicateStylePropertyException e){
-            System.err.println("Semantic Error: "+e.getMessage());
+            ErrorLogger.log("DuplicateStylePropertyException: "+e);
         }
         scopes.add(".product-list");
         p.setCSS_BODY(ctx.CSS_BODY().getText());
@@ -465,7 +465,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
                 throw new DuplicateStylePropertyException("Duplicate style property '.product-card'  found in component at line "+p.getLine()+" . Each style property must be defined only once.");
             symbolTable.rs_symbolTable.addVariable(".product-card","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
         }catch (DuplicateStylePropertyException e){
-            System.err.println("Semantic Error: "+e.getMessage());
+            ErrorLogger.log("DuplicateStylePropertyException: "+e);
         }
         scopes.add(".product-card");
         p.setCSS_BODY(ctx.CSS_BODY().getText());
@@ -481,7 +481,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
                 throw new DuplicateStylePropertyException("Duplicate style property '.product-card:hover'  found in component at line "+p.getLine()+" . Each style property must be defined only once.");
             symbolTable.rs_symbolTable.addVariable(".product-card:hover","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
         }catch (DuplicateStylePropertyException e){
-            System.err.println("Semantic Error: "+e.getMessage());
+            ErrorLogger.log("DuplicateStylePropertyException: "+e);
         }
         scopes.add(".product-card:hover");
         p.setCSS_BODY(ctx.CSS_BODY().getText());
@@ -497,7 +497,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
                 throw new DuplicateStylePropertyException("Duplicate style property '.product-card img'  found in component at line "+p.getLine()+" . Each style property must be defined only once.");
             symbolTable.rs_symbolTable.addVariable(".product-card img","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
         }catch (DuplicateStylePropertyException e){
-            System.err.println("Semantic Error: "+e.getMessage());
+            ErrorLogger.log("DuplicateStylePropertyException: "+e);
         }
         scopes.add(".product-card img");
         p.setCSS_BODY(ctx.CSS_BODY().getText());
@@ -513,7 +513,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
                 throw new DuplicateStylePropertyException("Duplicate style property '.product-details'  found in component at line "+p.getLine()+" . Each style property must be defined only once.");
             symbolTable.rs_symbolTable.addVariable(".product-details","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
         }catch (DuplicateStylePropertyException e){
-            System.err.println("Semantic Error: "+e.getMessage());
+            ErrorLogger.log("DuplicateStylePropertyException: "+e);
         }
         scopes.add(".product-details");
         p.setCSS_BODY(ctx.CSS_BODY().getText());
@@ -529,7 +529,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
                 throw new DuplicateStylePropertyException("Duplicate style property '.product-details img'  found in component at line "+p.getLine()+" . Each style property must be defined only once.");
             symbolTable.rs_symbolTable.addVariable(".product-details img","styles_element",scopes.getLast(),p.getLine(),p.getColumn());
         }catch (DuplicateStylePropertyException e){
-            System.err.println("Semantic Error: "+e.getMessage());
+            ErrorLogger.log("DuplicateStylePropertyException: "+e);
         }
         scopes.add(".product-details img");
         p.setCSS_BODY(ctx.CSS_BODY().getText());
@@ -653,7 +653,7 @@ public class BaseVisitor extends AngulerParserBaseVisitor {
                 symbolTable.variableClassSymbolTable.addVariable(assignedVariable,"Variable",scopes.getLast(),body.substring(end+1,body.length()),click.getLine(),click.getColumn());
             }
             catch (UndeclaredIdentifierException e){
-                System.err.println("Semantic Error: "+e.getMessage());
+                ErrorLogger.log("UndeclaredIdentifierException: "+e);
             }
         }
         scopes.pop();

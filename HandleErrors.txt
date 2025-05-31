@@ -1,0 +1,14 @@
+[2025-05-31T13:14:57.005274100] 
+UndefinitionImportException: SymbolTable.UndefinitionImportException: This Module is not in this Package at line 1
+[2025-05-31T13:14:57.024282300] 
+UndefinitionImportException: SymbolTable.UndefinitionImportException: This package is not definition at line 2
+[2025-05-31T13:14:57.039281300] 
+UnknownReferenceImportException: SymbolTable.UnknownReferenceImportException: You have to import this Module out of the Component 
+[2025-05-31T13:14:57.041281400] 
+ComponentPropertyRedefinitionException: SymbolTable.ComponentPropertyRedefinitionException: Duplicate 'selector' found in @Component at line 7
+[2025-05-31T13:14:57.056270] 
+DuplicateStylePropertyException: SymbolTable.DuplicateStylePropertyException: Duplicate style property '.app'  found in component at line 40 . Each style property must be defined only once.
+[2025-05-31T13:14:57.069274400] 
+MissingTemplateException: SymbolTable.MissingTemplateException: Component is missing a template. A component must have a 'template' property.
+[2025-05-31T13:14:57.119279] 
+UndeclaredIdentifierException: SymbolTable.UndeclaredIdentifierException: Property ' selectedProdt ' is used in method but not declared in the component class at line 86
