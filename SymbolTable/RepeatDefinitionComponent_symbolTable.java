@@ -3,12 +3,11 @@ package SymbolTable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RepeatDefinitionComponent_SymbolTable {
+public class RepeatDefinitionComponent_symbolTable {
     List<Row>symbolTable;
-    int selector=0,standalone=0,imports=0,template=0,styles=0,
-            app=0,p_list=0,p_card=0,p_cardh=0,p_cardi=0,p_details=0,p_detailsi=0;
+    int selector=0,standalone=0,imports=0,template=0,styles=0;
 
-    public RepeatDefinitionComponent_SymbolTable() {
+    public RepeatDefinitionComponent_symbolTable() {
         this.symbolTable = new ArrayList<>();
     }
 
@@ -52,16 +51,10 @@ public class RepeatDefinitionComponent_SymbolTable {
         return true;
     }
 
-    public boolean TemplateIsExist(){
-        if (template==0)
-            return false;
-        return true;
-    }
-
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Definition Symbol Table:\n");
+        stringBuilder.append("Definition Component Symbol Table:\n");
         stringBuilder.append("*".repeat(160)).append("\n");
 
         int idWidth = 10;
